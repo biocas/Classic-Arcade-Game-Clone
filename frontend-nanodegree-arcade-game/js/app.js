@@ -74,6 +74,16 @@ Player.prototype.update = function(dt) {
         this.y = 400; 
         }
 
+    //scoreboard
+    if (this.win) {
+        score += 1; 
+        $("#score").append(score).replaceWith(score);
+    }
+    
+    if (this.lose) {
+        score -= 1; 
+        $("#score").append(score).replaceWith(score);
+    }
 }; 
 
 Player.prototype.render = function() {
