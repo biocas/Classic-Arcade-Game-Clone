@@ -121,6 +121,7 @@ var player = new Player(200, 400);
 //Check collision between player and enemies
 Enemy.prototype.checkCollisions = function() {
 
+    // sets enemy and player bounding boxes
     var enemyBox = {
         x: this.x,
         y: this.y + 77,
@@ -134,6 +135,7 @@ Enemy.prototype.checkCollisions = function() {
         height: 75
     };
     
+    //checks collisions
     if (enemyBox.x < playerBox.x + playerBox.width
         && enemyBox.x + enemyBox.width > playerBox.x
         && enemyBox.y < playerBox.y + playerBox.height
@@ -146,6 +148,7 @@ Enemy.prototype.checkCollisions = function() {
     }
 }; 
 
+// resets player position
 Player.prototype.reset = function() {
     this.x = 200;
     this.y = 400;
