@@ -11,6 +11,7 @@ var Enemy = function(x, y, speed) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    
 };
 
 // Update the enemy's position, required method for game
@@ -38,14 +39,14 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(x, y) {
-    Enemy.call(this); 
+    //Enemy.call(this); 
     this.x = x; 
     this.y = y; 
     this.sprite = 'images/char-boy.png';
-  //  this.width = 101; 
-  //  this.height = 171;
-    
-   // this.box = [this.x, this.y, this.width, this.height];
+    this.width = 101; 
+    this.height = 171;
+    this.box = [this.x, this.y, this.width, this.height];
+    this.score = 0;
 };
 
 
@@ -65,7 +66,7 @@ Player.prototype.update = function(dt) {
         this.x = 200; 
         this.y = 400;
         }
-    else if (this.y < 40) {
+    else if (this.y < -15) {
         this.x = 200; 
         this.y = 400; 
         }
@@ -75,15 +76,22 @@ Player.prototype.update = function(dt) {
         }
 
     //scoreboard
-    if (this.win) {
-        score += 1; 
-        $("#score").append(score).replaceWith(score);
-    }
+    document.getElementById("score").innerHTML = this.score;
     
-    if (this.lose) {
-        score -= 1; 
-        $("#score").append(score).replaceWith(score);
-    }
+   if (this.y < 67) {
+        this.reset();
+        this.score += 1; 
+        document.getElementById("score").innerHTML = player.score;
+        alert("Way to go! Keep beating those bugs!! ");
+    } 
+    //this.win(); 
+    //this.lose();
+    
+   /* if (this.lose) {
+        this.score -= 1; 
+        //$("#score").append(score);
+        // alert("Auch!");
+    } */
 }; 
 
 Player.prototype.render = function() {
@@ -109,11 +117,11 @@ Player.prototype.handleInput = function(keys) {
 }; 
 
 // Now instantiate your objects.
-var enemy1 = new Enemy(-50, 200, 300);
-var enemy2 = new Enemy(-300, 100, 100);
-var enemy3 = new Enemy(-200, 200, 50);
-var enemy4 = new Enemy(-150, 150, 200);
-var enemy5 = new Enemy(-50, 70, 270);
+var enemy1 = new Enemy(-50, 200, 0);
+var enemy2 = new Enemy(-300, 100, 0);
+var enemy3 = new Enemy(-200, 200, 0);
+var enemy4 = new Enemy(-150, 150, 0);
+var enemy5 = new Enemy(-50, 70, 0);
 
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
@@ -153,16 +161,8 @@ Player.prototype.reset = function() {
     this.y = 400;
 };
 
-Player.prototype.win = function() {
-    if (this.x < -10 || this.x > 450)  {
-       return true; 
-        console.log("win");
-   }
-}; 
-
 Player.prototype.lose = function() {
-   if (Enemy.prototype.checkCollisions === true) {
-       //Player.prototype.reset();
+   if (Enemy.checkCollisions === true) {
        return true; 
        console.log("lose");
    }
