@@ -77,21 +77,13 @@ Player.prototype.update = function(dt) {
 
     //scoreboard
     document.getElementById("score").innerHTML = this.score;
-    
    if (this.y < 67) {
         this.reset();
         this.score += 1; 
         document.getElementById("score").innerHTML = player.score;
         alert("Way to go! Keep beating those bugs!! ");
     } 
-    //this.win(); 
-    //this.lose();
-    
-   /* if (this.lose) {
-        this.score -= 1; 
-        //$("#score").append(score);
-        // alert("Auch!");
-    } */
+
 }; 
 
 Player.prototype.render = function() {
@@ -151,8 +143,10 @@ Enemy.prototype.checkCollisions = function() {
         && enemyBox.y < playerBox.y + playerBox.height
         && enemyBox.height + enemyBox.y > playerBox.y) {
         player.reset();
-        console.log("collision checked!");
-        return true;
+        // updates scoreboard when player loses
+        player.score -=1; 
+        document.getElementById("score").innerHTML = player.score;
+        alert("Auch!");
     }
 }; 
 
@@ -161,12 +155,6 @@ Player.prototype.reset = function() {
     this.y = 400;
 };
 
-Player.prototype.lose = function() {
-   if (Enemy.checkCollisions === true) {
-       return true; 
-       console.log("lose");
-   }
-}; 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
