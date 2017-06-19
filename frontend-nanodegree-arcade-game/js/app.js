@@ -6,7 +6,6 @@ var Enemy = function(x, y, speed) {
     this.y = y; 
     this.width = 80; 
     this.height = 60;
-    this.box = [this.x, this.y, this.width, this.height];
     this.speed = speed; 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -25,9 +24,8 @@ Enemy.prototype.update = function(dt) {
     } else {
        this.x = 0;
     }   
-    //this.x += this.speed * dt; 
+ 
     this.checkCollisions();
-    
 };
 
 // Draw the enemy on the screen, required method for game
@@ -38,14 +36,12 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-var Player = function(x, y) {
-    //Enemy.call(this); 
+var Player = function(x, y) { 
     this.x = x; 
     this.y = y; 
     this.sprite = 'images/char-boy.png';
     this.width = 101; 
     this.height = 171;
-    this.box = [this.x, this.y, this.width, this.height];
     this.score = 0;
 };
 
@@ -77,7 +73,7 @@ Player.prototype.update = function(dt) {
 
     //scoreboard
     document.getElementById("score").innerHTML = this.score;
-   if (this.y < 67) {
+    if (this.y < 67) {
         this.reset();
         this.score += 1; 
         document.getElementById("score").innerHTML = player.score;
