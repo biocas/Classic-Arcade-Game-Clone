@@ -134,6 +134,7 @@ Enemy.prototype.checkCollisions = function() {
         && enemyBox.height + enemyBox.y > playerBox.y) {
         player.reset();
         console.log("collision checked!");
+        return true;
     }
 }; 
 
@@ -141,6 +142,21 @@ Player.prototype.reset = function() {
     this.x = 200;
     this.y = 400;
 };
+
+Player.prototype.win = function() {
+    if (this.x < -10 || this.x > 450)  {
+       return true; 
+        console.log("win");
+   }
+}; 
+
+Player.prototype.lose = function() {
+   if (Enemy.prototype.checkCollisions === true) {
+       //Player.prototype.reset();
+       return true; 
+       console.log("lose");
+   }
+}; 
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
