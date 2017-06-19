@@ -4,8 +4,9 @@ var Enemy = function(x, y, speed) {
     // we've provided one for you to get started
     this.x = x; 
     this.y = y; 
-    this.w = 80; 
-    this.h = 60;
+    this.width = 80; 
+    this.height = 60;
+    this.box = [this.x, this.y, this.width, this.height];
     this.speed = speed; 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -18,14 +19,13 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += this.speed * dt; 
-    
-     if(this.x > 505) {
-            this.x = 0;
-        }
-   if (this.checkCollisions()) {
-       console.log("collision checked");
-       }
+    if ( this.x < 450 ){  
+      this.x += this.speed * dt;
+    } else {
+       this.x = 0;
+    }   
+    //this.x += this.speed * dt; 
+    this.checkCollisions();
     
 };
 
@@ -38,14 +38,14 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function(x, y) {
-    //Enemy.call(this); 
+    Enemy.call(this); 
     this.x = x; 
     this.y = y; 
     this.sprite = 'images/char-boy.png';
-    this.w = 101; 
-    this.h = 171;
+  //  this.width = 101; 
+  //  this.height = 171;
     
-    this.box = [this.x, this.y, this.w, this.h];
+   // this.box = [this.x, this.y, this.width, this.height];
 };
 
 
@@ -113,32 +113,34 @@ var allEnemies = [];
 var player = new Player(200, 400); 
 
 //Check collision between player and enemies
-Enemy.prototype.checkCollisions = function(player) {
-    var playerHit = {
-        x: Player.x,
-        y: Player.y,
-        width: Player.w,
-        height: Player.h 
-    }
- 
-    var enemyHit = {
+Enemy.prototype.checkCollisions = function() {
+
+    var enemyBox = {
         x: this.x,
-        y: this.y,
-        width: this.w,
-        height: this.h
-    }
- 
-    for (var i = 0; i < allEnemies.length; i++) {
-         if (enemyHit.x < playerHit.x + playerHit.width &&
-               enemyHit.x + enemyHit.width > playerHit.x &&
-               enemyHit.y < playerHit.y + playerHit.height &&
-               enemyHit.height + enemyHit.y > playerHit.y) {
-                    this.reset()// collision detected!
-            }
-        }
+        y: this.y + 77,
+        width: 70,
+        height: 47
+    };
+    var playerBox = {
+        x: player.x + 6,
+        y: player.y + 63,
+        width: 70,
+        height: 75
+    };
     
+    if (enemyBox.x < playerBox.x + playerBox.width
+        && enemyBox.x + enemyBox.width > playerBox.x
+        && enemyBox.y < playerBox.y + playerBox.height
+        && enemyBox.height + enemyBox.y > playerBox.y) {
+        player.reset();
+        console.log("collision checked!");
+    }
 }; 
 
+Player.prototype.reset = function() {
+    this.x = 200;
+    this.y = 400;
+};
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
